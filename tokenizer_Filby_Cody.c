@@ -5,28 +5,26 @@
 #include <stdbool.h>
 
 
-
 int main()
 
 {
 
-  char str[100];
+  char* str;
 
-  while(str[0] != 'q'){
+  while(str != 'q'){
 
     printf("$");
-
     fgets(str, 100, stdin);
 
-    count_tokens(str);
-
-    char** tokens = tokenize(str);
-
-    count_tokens(tokens);
-
-    print_all_tokens(tokens);
-
   }
+
+  count_tokens(*str);
+
+  char** tokens = tokenize(str);
+
+  count_tokens(tokens);
+
+  print_all_tokens(tokens);
 
 }
 
@@ -40,7 +38,7 @@ int main()
 
 bool delim_character(char c){
 
-  if(c == "\t" & c == " ")
+  if(c == '\t' || c == ' ')
 
     return true;
 
@@ -58,11 +56,11 @@ bool delim_character(char c){
 
 bool non_delim_character(char c){
 
-  if(c != "\t" & c != " ")
+  if(c == "\t" || c == ' ')
 
-    return true;
+    return false;
 
-  return false;
+  return true;
 
 }
 
@@ -118,7 +116,7 @@ char *end_word(char* str){
 
   }
 
-  return;
+  return str;
 
 }
 
@@ -197,13 +195,13 @@ char** tokenize(char* str){
 
   while(pos < token_len) {
 
-    int len = word_start(str) - word_end(str);
+    int len = word_start(str) - end_word(str);
 
     str = word_start(str);
 
     char* token = copy_str(str, len);
 
-    str = word_end(str);
+    str = end_word(str);
 
     tokens[pos] = token;
 
