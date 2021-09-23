@@ -18,11 +18,11 @@ int main()
 
   }
 
-  count_tokens(*str);
+  count_tokens(str);
 
   char** tokens = tokenize(str);
 
-  count_tokens(tokens);
+  count_tokens(*tokens);
 
   print_all_tokens(tokens);
 
@@ -76,17 +76,17 @@ char *word_start(char* str){
 
     char *temp = str;
 
-    while (*temp) {
+    while (temp) {
 
-      if (delim_character(*temp)) {
+      if (delim_character(temp)) {
 
-	*temp++;
+	temp++;
 
 	return temp; // if a space is found, return the pointer to the first character
 
       }
 
-      *temp++;
+      temp++;
 
     }
 
@@ -104,11 +104,11 @@ char *word_start(char* str){
 
 char *end_word(char* str){
 
-  while (non_delim_character(*str)){
+  while (non_delim_character(str)){
 
     str++;
 
-    if (delim_character(*str)) {
+    if (delim_character(str)) {
 
       return str;
 
@@ -179,7 +179,7 @@ char *copy_str(char *inStr, short len){
 
   }
 
-  return inStr;
+  return inStr; // return original if at the end of the string
 
 }
 
@@ -195,11 +195,11 @@ char** tokenize(char* str){
 
   while(pos < token_len) {
 
-    int len = word_start(str) - end_word(str);
+    int len = word_start(str) - end_word(str); //find how much is needed to make a token out of
 
     str = word_start(str);
 
-    char* token = copy_str(str, len);
+    char* token = copy_str(str, len); // get the token out of a copy of the original string to the next word
 
     str = end_word(str);
 
